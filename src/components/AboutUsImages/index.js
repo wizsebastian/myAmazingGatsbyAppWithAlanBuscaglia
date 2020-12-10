@@ -1,26 +1,29 @@
 import React from 'react';
-import { graphql } from 'gatsby';
+import { StaticQuery, graphql } from 'gatsby';
 import Img from 'gatsby-image';
 
-export default ({ data }) => (
-    <div>
-
-{
-    console.log(data)
-}        <h1>
-            Hello Images</h1>
-            <Img fixed={data.file.childImageSharp.fixed}/>
-                </div>
-)
+export default ({ data }) => {
+  return (
+    <StaticQuery
+      query={query}
+      render={(data) => (
+        <div>
+          <h1>Hello Images</h1>
+          <Img fluid={data.coverImage.childImageSharp.fluid} />
+        </div>
+      )}
+    />
+  );
+};
 
 export const query = graphql`
   query {
-    file(relativePath: { eq: "gentlemanprogramming.png" }) {
+    coverImage: file(relativePath: { regex: "/gentlemanprogramming/" }) {
       childImageSharp {
-        fixed(width: 125, height: 125) {
-          ...GatsbyImageSharpFixed
+        fluid(maxWidth: 800, quality: 100) {
+          ...GatsbyImageSharpFluid
         }
       }
     }
   }
-`
+`;
