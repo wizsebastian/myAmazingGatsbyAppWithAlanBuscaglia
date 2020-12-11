@@ -1,27 +1,32 @@
-import React, { Component } from "react";
-import Header from "../components/Header";
 import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import Layout from '../components/Layout';
 
-class Characters extends Component {
-    state = {
-        characters: []
-    }
+const Characters = () => {
+  const [characters, setCharacters] = useState([]);
 
-    componentDidMount() {
-        axios.get(`https://rickandmortyapi.com/api/characters`)
-    .then(res => {
-            const characters = res.data;
-            this.setState({
-                characters
-            })
-            console.log('DATA', this.state.characters)
-        })
-    }
-  render() {
-    return <div>
-        <Header/>
-        Characters</div>;
-  }
-}
+  useEffect(() => {
+    load();
+  }, []);
+
+  const load = async () => {
+    try {
+      const { data } = await axios.get(`https://rickandmortyapi.com/api/character`);
+      setCharacters(data.results);
+    } catch (error) {}
+  };
+  console.log('DATA', characters);
+  return (
+    <Layout>
+      {characters.map((character) => {
+        return (
+          <div key={character.name}>
+            <span>{character.name}</span>
+          </div>
+        );
+      })}
+    </Layout>
+  );
+};
 
 export default Characters;
