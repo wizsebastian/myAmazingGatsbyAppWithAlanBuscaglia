@@ -8,7 +8,7 @@ class AboutUs extends Component{
         return(
             <div>
                 <Header/>
-                <AboutUsImage/>
+                <AboutUsImage img="background"/>
             </div>
         )
     }
